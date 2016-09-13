@@ -6,13 +6,13 @@ Requires=docker.service
 [Service]
 EnvironmentFile=/etc/environment
 TimeoutStartSec=0
-ExecStartPre=/bin/sh -c "/usr/bin/docker pull gaiagps/staticmapservice:master"
+ExecStartPre=/bin/sh -c "/usr/bin/docker pull hemamaps/staticmapservice:master"
 ExecStartPre=-/usr/bin/docker rm staticmaps-%i
 ExecStart=/bin/sh -c "/usr/bin/docker run --rm \
             --name staticmaps-%i \
             -h staticmaps-%i \
             -p 8901:8000 \
-            gaiagps/staticmapservice:master"
+            hemamaps/staticmapservice:master"
 ExecStartPost=/usr/bin/etcdctl set /app/staticmaps/%i http://${COREOS_PUBLIC_IPV4}:8901
 ExecStop=/usr/bin/docker stop staticmaps-%i
 ExecStopPost=/usr/bin/etcdctl rm /app/staticmaps/%i
